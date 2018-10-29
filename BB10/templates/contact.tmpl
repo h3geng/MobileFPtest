@@ -1,0 +1,11 @@
+<li id="${Id}">
+    <a href="#">
+        <h2>${FullName}</h2>
+        {{if ContactType !== "01"}}
+        <p><strong>${$item.getCompany()}</strong></p>
+        <p>${ContactType}</p>
+        {{else}}
+        <p><strong>${Region && Region.Value || 'Unknown Region'} - ${Branch && Branch.Value || 'Unknown Branch'}</strong></p>
+        {{/if}}
+    </a>
+</li>

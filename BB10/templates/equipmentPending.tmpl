@@ -1,0 +1,9 @@
+<li class="swipe-delete" id="${id}">
+    <a>
+        <h3>${itemClass} - ${itemModel}</h3>
+        <p>Item: <strong>${itemNumber}</strong> Tag: <strong>${assetTag}</strong></p>
+		<p>Status: <strong>${status} [${branch}]</strong></p>
+		<p>New Status: <strong>${$item.getNewStatus()} ${$item.getDetails()}</strong></p>
+    </a>
+    <a href="#removeEquipment" class="removeEquipment" data-rel="${id}">Remove</a>
+</li>

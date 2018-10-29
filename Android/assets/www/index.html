@@ -1,0 +1,921 @@
+<!DOCTYPE html> 
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        
+		<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8; Cache-Control: no-cache" />
+        <meta http-equiv="pragma" content="no-cache">
+        
+        <title>FirstOnSite</title>
+        
+        <link rel="shortcut icon" href="favicon.ico">
+        
+        <link rel="stylesheet" href="assets/css/lib/jqueryMobile.css" />
+		<link rel="stylesheet" href="assets/css/lib/simplePagination.css" />
+		<link rel="stylesheet" href="assets/css/lib/fos.min.css" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <link rel="stylesheet" href="assets/css/mobile.css" />
+    </head>
+    
+    <body>
+		
+		<div id="splash" data-role="page" data-theme="c">
+			<div id="splashContent" data-role="content">
+				<img class="login-logo" src="assets/img/logo.png" >
+				<div id="deviceready" class="blink">
+					<p class="event listening">Initializing Device</p>
+				</div>
+				<div id="btnLoginPage">
+					<input type="button" id="btnLoginPageGo" value="Go to Login Page">
+				</div>
+			</div>
+		</div>
+		
+        <div id="login" data-role="page" data-theme="c">
+        
+            <div data-role="content">
+                <img class="login-logo" src="assets/img/logo.png" >
+                
+				<div class="control-group">
+                    <div data-role="fieldcontain">
+						<label for="select-region">Region:</label>
+						<select name="select-region" id="select-region">
+							<option value=""></option>
+						</select>
+					</div>
+                </div>
+				
+                <div class="control-group">
+                    <label for="email">Username:</label>
+                    <input type="text" data-clear-btn="true" name="email" id="email" value=""  maxlength="80"/>
+                </div>
+                
+                <div class="control-group">
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" id="password" value=""  maxlength="20"/>
+                </div>
+                
+                <div class="control-group">
+                    <label><input type="checkbox" name="remember" id="remember" />Remember Me?</label>
+                </div>
+                
+                <p class="separator-horizontal"></p>
+                
+                <div class="control-group">
+                    <input type="button" id="btnLogin" value="Login">
+                </div>
+            </div>
+			
+			<div id="ctUsers" data-role="popup" data-theme="b" class="ui-corner-all">
+				<div data-role="header" data-theme="b" class="ui-corner-top"><h1>Select CT User</h1></div>
+				<div data-role="content" data-theme="c" class="ui-corner-bottom ui-content">
+					<ul class="ct-users" data-role="listview" data-inset="true" data-theme="d"></ul>
+				</div>
+			</div>
+            
+        </div>
+		
+		<canvas id="barcodeCanvas" style="position: absolute; z-index: 999999; display: none; width: 100%; height: 100%"></canvas>
+        
+        <div id="home" data-role="page" role="page" data-theme="c">
+			
+			<div id="homePanelOptions" data-role="panel" data-display="overlay">
+				<ul class="home-links" data-role="listview">
+					<li class="ui-btn-active">Home</li>
+					<li><a href="#" data-rel="companies" class="home-details">Find Company</a></li>
+                    <li><a href="#" data-rel="contacts" class="home-details">Find Contact</a></li>
+                </ul>
+			</div>
+			
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+			
+			<div id="home_content" data-role="content">
+				<h2>FirstOnSite Field Portal for Mobile</h2>
+				
+				<div class="file-alerts" data-role="collapsible-set" data-theme="b" data-content-theme="d">
+					<div class="scan-manual" data-role="collapsible" data-collapsed="true">
+						<h2>My Details</h2>
+						<ul data-role="listview" data-inset="true" data-theme="d">
+							<li>
+								<p>&nbsp;</p>
+								<p>Current Region: <span class="current-container-data current-region"></span></p>
+								<p>Current User: <span class="current-container-data current-user"></span></p>
+								<p>CT User: <span class="current-container-data ct-user"></span></p>
+								<p>Home Branch: <span class="current-container-data current-branch"></p>
+							</li>
+						</ul>
+					</div>
+					<div class="scan-manual" data-role="collapsible" data-collapsed="true">
+						<h2>File Alerts</h2>
+						<ul class="ct-users-alerts" data-role="listview" data-inset="true" data-theme="d"></ul>
+					</div>
+					<div class="scan-manual" data-role="collapsible" data-collapsed="true">
+						<h2>My Jobs</h2>
+						<ul class="ct-users-jobs" data-role="listview" data-inset="true" data-theme="d"></ul>
+					</div>
+				</div>
+				<ul class="quick-links" data-role="listview" data-inset="true" data-theme="d">
+                    <li><a href="#" class="link-job-home">Job Search</a></li>
+                    <li><a href="#" class="toolbar-camera-link">Scan Equipment</a></li>
+					<li><a href="#" class="toolbar-timesheets">Timesheets</a></li>
+					<li class="pending-transactions-line"><a href="#transactions" class="pending-transactions">Pending Transactions <span class="ui-li-count">0</span></a></li>
+                </ul>
+			</div>
+			
+			<div id="ctUsersHome" data-role="popup" data-theme="b" class="ui-corner-all">
+				<div data-role="header" data-theme="b" class="ui-corner-top"><h1>Select CT User</h1></div>
+				<div data-role="content" data-theme="c" class="ui-corner-bottom ui-content">
+					<ul class="ct-users-home" data-role="listview" data-inset="true" data-theme="d"></ul>
+				</div>
+			</div>
+			
+        </div>
+		
+		<div id="companies" data-role="page" role="page" data-theme="c">
+			
+			<div id="companiesPanelOptions" data-role="panel" data-display="overlay">
+				<ul class="home-links" data-role="listview">
+					<li><a href="#" data-rel="companies" class="home-details">Home</a></li>
+					<li><a href="#" data-rel="jobList" class="home-details">Find Job</a></li>
+					<li class="ui-btn-active">Find Company</li>
+                    <li><a href="#" data-rel="contacts" class="home-details">Find Contact</a></li>
+					<li><a href="#" data-rel="employees" class="home-details">Find Employee</a></li>
+                </ul>
+			</div>
+			
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+			
+			<div id="companies_content" data-role="content">
+				<form id="searchCompanySubmit">
+					<select id="searchCompanyTypes" multiple="multiple"></select>
+					<input type="text" data-clear-btn="true" name="searchCompany" id="searchCompany" value="" placeholder="Search for companies...">
+				</form>
+                <ul class="companieslist" data-role="listview" data-inset="true"></ul>
+			</div>
+			
+        </div>
+		
+		<div id="companyDetails" data-role="page" role="page" data-theme="c">
+			
+			<div id="companyDetailsPanelOptions" data-role="panel" data-display="overlay">
+				<ul class="home-links" data-role="listview">
+					<li><a href="#" data-rel="companies" class="home-details">Home</a></li>
+					<li><a href="#" data-rel="jobList" class="home-details">Find Job</a></li>
+					<li><a href="#" data-rel="companies" class="home-details">Find Company</a></li>
+                    <li><a href="#" data-rel="contacts" class="home-details">Find Contact</a></li>
+					<li><a href="#" data-rel="employees" class="home-details">Find Employee</a></li>
+                </ul>
+			</div>
+            
+            <div data-role="header" data-theme="b" class="ui-header"></div>
+            
+            <div class="companyDetails" data-role="content">
+				<h2>Company Details</h2>
+                <ul class="companydetails" data-role="listview" data-theme="d" data-divider-theme="d" data-inset="true"></ul>
+            </div>
+            
+        </div>
+		
+		<div id="contacts" data-role="page" role="page" data-theme="c">
+			
+			<div id="contactsPanelOptions" data-role="panel" data-display="overlay">
+				<ul class="home-links" data-role="listview">
+					<li><a href="#" data-rel="companies" class="home-details">Home</a></li>
+					<li><a href="#" data-rel="jobList" class="home-details">Find Job</a></li>
+					<li><a href="#" data-rel="companies" class="home-details">Find Company</a></li>
+                    <li class="ui-btn-active">Find Contact</li>
+					<li><a href="#" data-rel="employees" class="home-details">Find Employee</a></li>
+                </ul>
+			</div>
+			
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+			
+			<div id="contacts_content" data-role="content">
+				<form id="searchContactSubmit">
+					<select id="searchContactTypes" multiple="multiple"></select>
+					<input type="text" data-clear-btn="true" name="searchContact" id="searchContact" value="" placeholder="Search for contacts...">
+				</form>
+                <ul class="contactslist" data-role="listview" data-inset="true"></ul>
+			</div>
+			
+        </div>
+		
+		<div id="contactDetails" data-role="page" role="page" data-theme="c">
+			
+			<div id="contactDetailsPanelOptions" data-role="panel" data-display="overlay">
+				<ul class="home-links" data-role="listview">
+					<li><a href="#" data-rel="companies" class="home-details">Home</a></li>
+					<li><a href="#" data-rel="jobList" class="home-details">Find Job</a></li>
+					<li><a href="#" data-rel="companies" class="home-details">Find Company</a></li>
+                    <li><a href="#" data-rel="contacts" class="home-details">Find Contact</a></li>
+					<li><a href="#" data-rel="employees" class="home-details">Find Employee</a></li>
+                </ul>
+			</div>
+            
+            <div data-role="header" data-theme="b" class="ui-header"></div>
+            
+            <div class="contactDetails" data-role="content">
+				<h2>Contact Details</h2>
+                <ul class="contactdetails" data-role="listview" data-theme="d" data-divider-theme="d" data-inset="true"></ul>
+            </div>
+            
+        </div>
+		
+		<div id="employees" data-role="page" role="page" data-theme="c">
+			
+			<div id="employeesPanelOptions" data-role="panel" data-display="overlay">
+				<ul class="home-links" data-role="listview">
+					<li><a href="#" data-rel="companies" class="home-details">Home</a></li>
+					<li><a href="#" data-rel="jobList" class="home-details">Find Job</a></li>
+					<li><a href="#" data-rel="companies" class="home-details">Find Company</a></li>
+                    <li><a href="#" data-rel="contacts" class="home-details">Find Contact</a></li>
+					<li class="ui-btn-active">Find Employee</li>
+                </ul>
+			</div>
+			
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+			
+			<div id="employees_content" data-role="content">
+				<form id="searchEmployeeSubmit">
+					<input type="text" data-clear-btn="true" name="searchEmployee" id="searchEmployee" value="" placeholder="Search for employees...">
+				</form>
+                <ul class="employeeslist" data-role="listview" data-inset="true"></ul>
+			</div>
+			
+        </div>
+		
+		<div id="employeeDetails" data-role="page" role="page" data-theme="c">
+			
+			<div id="employeeDetailsPanelOptions" data-role="panel" data-display="overlay">
+				<ul class="home-links" data-role="listview">
+					<li><a href="#" data-rel="companies" class="home-details">Home</a></li>
+					<li><a href="#" data-rel="jobList" class="home-details">Find Job</a></li>
+					<li><a href="#" data-rel="companies" class="home-details">Find Company</a></li>
+                    <li><a href="#" data-rel="contacts" class="home-details">Find Contact</a></li>
+					<li><a href="#" data-rel="employees" class="home-details">Find Employee</a></li>
+                </ul>
+			</div>
+            
+            <div data-role="header" data-theme="b" class="ui-header"></div>
+            
+            <div class="employeeDetails" data-role="content">
+				<h2>Employee Details</h2>
+                <ul class="employeedetails" data-role="listview" data-theme="d" data-divider-theme="d" data-inset="true"></ul>
+            </div>
+            
+        </div>
+		
+		<div id="scan" data-role="page" role="page" data-theme="c">
+			
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+			
+			<div id="scan_content" data-role="content">
+				<h2>Batch Scan To Status:</h2>
+				<div class="ui-grid-a">
+					<div class="ui-block-a"><a class="batch-link link-truck" data-rel="trucks" href="#" data-role="button" data-inline="true">Transit</a></div>
+					<div class="ui-block-b"><a class="batch-link link-branch" data-rel="branches" href="#" data-role="button" data-inline="true">Branch Transfer</a></div>
+					<div class="ui-block-a"><a class="batch-link link-job" data-rel="jobList" href="#" data-role="button" data-inline="true">Issue To Job</a></div>
+					<div class="ui-block-b"><a class="batch-link link-idle" data-rel="idle" href="#" data-role="button" data-inline="true">Return</a></div>
+				</div>
+			</div>
+			
+			<div data-role="footer" data-theme="c" class="ui-footer" data-position="fixed">
+				<p style="text-align: center"><a href="#" class="toolbar-camera-link" data-role="button" data-inline="true">Single Item Scan Mode</a></p>
+			</div>
+        </div>
+		
+		<div id="camera" data-role="page" role="page" data-theme="c">
+            
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+            
+            <div class="equipmentScanDetails" data-role="content">
+				<h2>Single Scan Mode</h2>
+				<div class="scan-manual-set" data-role="collapsible-set" data-theme="b" data-content-theme="d">
+					<div class="scan-manual" data-role="collapsible" data-collapsed="false">
+						<h2>Equipment Manual Scan</h2>
+						<p>
+							<form id="cameraScan">
+								Please fill in equipment code... <span class="waitmessage"></span>
+								<input type="text" data-clear-btn="true" id="cameraCode" maxlength="50" />
+							</form>
+						</p>
+					</div>
+				</div>
+				<div class="scanresults"></div>
+			</div>
+			
+			<div data-role="footer" data-theme="b" class="ui-footer" data-position="fixed">
+				<div data-role="navbar" data-grid="b" class="nav-custom-footer">
+					<ul>
+						<li><a href="#" data-theme="b" data-rel="camera" data-icon="custom" class="footer-camera scan-camera">Camera</a></li>
+						<li><a href="#" data-theme="b" data-rel="manual" data-icon="custom" class="footer-manual scan-camera">Manual</a></li>
+						<li><a href="#" data-theme="b" data-rel="grabba" data-icon="custom" class="footer-grabba scan-camera">Grabba</a></li>
+					</ul>
+				</div>
+			</div>
+			
+        </div>
+		
+		<div id="settings" data-role="page" role="page" data-theme="c">
+			
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+			
+			<div id="settings_content" data-role="content">
+				<fieldset data-role="controlgroup" data-type="horizontal">
+					<legend>System Language:</legend>
+					<input type="radio" name="radio-lang" id="radio-en" value="on" checked="checked">
+					<label for="radio-en">English</label>
+					<input type="radio" name="radio-lang" id="radio-fr" value="off">
+					<label for="radio-fr">French</label>
+				</fieldset>
+				<fieldset data-role="controlgroup" data-type="horizontal">
+					<legend>Home Branch:</legend>
+					<select name="select-branch" id="select-branch">
+						<option value="" rel="">None</option>
+					</select>
+				</fieldset>
+			</div>
+			
+        </div>
+        
+        <div id="trucks" data-role="page" role="page" data-theme="c">
+            
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+            
+            <div data-role="content">
+				<div class="scan-manual-set" data-role="collapsible-set" data-theme="b" data-content-theme="d">
+					<div class="scan-manual" data-role="collapsible" data-collapsed="false">
+						<h2>Equipment Manual Scan</h2>
+						<p>
+							<form id="truckScan">
+								Please fill in equipment code... <span class="waitmessage"></span>
+								<input type="text" data-clear-btn="true" id="truckCode" maxlength="50" />
+							</form>
+						</p>
+					</div>
+				</div>
+				<ul class="trucklist" data-role="listview" data-split-icon="delete" data-split-theme="d" data-inset="true"></ul>
+            </div>
+			
+			<div data-role="footer" data-theme="b" class="ui-footer" data-position="fixed">
+				<div class="transaction-process" data-role="navbar" data-grid="a">
+					<ul>
+						<li><a href="#" data-theme="b" data-rel="transit" data-icon="delete" class="transaction-cancel">Cancel All</a></li>
+						<li><a href="#" data-theme="b" data-rel="transit" data-icon="check" class="transaction-ok">Commit</a></li>
+					</ul>
+				</div>
+				<div data-role="navbar" data-grid="b" class="nav-custom-footer">
+					<ul>
+						<li><a href="#" data-theme="b" data-rel="camera" data-icon="custom" class="footer-camera scan-trucks">Camera</a></li>
+						<li><a href="#" data-theme="b" data-rel="manual" data-icon="custom" class="footer-manual scan-trucks">Manual</a></li>
+						<li><a href="#" data-theme="b" data-rel="grabba" data-icon="custom" class="footer-grabba scan-trucks">Grabba</a></li>
+					</ul>
+				</div>
+			</div>
+            
+        </div>
+		
+		<div id="idle" data-role="page" role="page" data-theme="c">
+            
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+            
+            <div data-role="content">
+				<div class="scan-manual-set" data-role="collapsible-set" data-theme="b" data-content-theme="d">
+					<div class="scan-manual" data-role="collapsible" data-collapsed="false">
+						<h2>Equipment Manual Scan</h2>
+						<p>
+							<form id="idleScan">
+								Please fill in equipment code... <span class="waitmessage"></span>
+								<input type="text" data-clear-btn="true" id="idleCode" maxlength="50" />
+							</form>
+						</p>
+					</div>
+				</div>
+                <ul class="idlelist" data-role="listview" data-inset="true" data-split-icon="delete" data-split-theme="d"></ul>
+            </div>
+			
+			<div data-role="footer" data-theme="b" class="ui-footer" data-position="fixed">
+				<div class="transaction-process" data-role="navbar" data-grid="a">
+					<ul>
+						<li><a href="#" data-theme="b" data-rel="idle" data-icon="delete" class="transaction-cancel">Cancel All</a></li>
+						<li><a href="#" data-theme="b" data-rel="idle" data-icon="check" class="transaction-ok">Commit</a></li>
+					</ul>
+				</div>
+				<div data-role="navbar" data-grid="b" class="nav-custom-footer">
+					<ul>
+						<li><a href="#" data-theme="b" data-rel="camera" data-icon="custom" class="footer-camera scan-idle">Camera</a></li>
+						<li><a href="#" data-theme="b" data-rel="manual" data-icon="custom" class="footer-manual scan-idle">Manual</a></li>
+						<li><a href="#" data-theme="b" data-rel="grabba" data-icon="custom" class="footer-grabba scan-idle">Grabba</a></li>
+					</ul>
+				</div>
+			</div>
+            
+        </div>
+		
+		<div id="branches" data-role="page" role="page" data-theme="c">
+            
+            <div data-role="header" data-theme="b" class="ui-header"></div>
+            
+            <div data-role="content">
+                <ul class="branchlist" data-role="listview" data-filter="true"></ul>
+            </div>
+            
+        </div>
+		
+		<div id="branchDetails" data-role="page" role="page" data-theme="c">
+            
+            <div data-role="header" data-theme="b" class="ui-header"></div>
+            
+            <div class="branchDetails" data-role="content">
+				<div class="scan-manual-set" data-role="collapsible-set" data-theme="b" data-content-theme="d">
+					<div class="scan-manual" data-role="collapsible" data-collapsed="false">
+						<h2>Equipment Manual Scan</h2>
+						<p>
+							<form id="branchScan">
+								Please fill in equipment code... <span class="waitmessage"></span>
+								<input type="text" data-clear-btn="true" id="branchCode" maxlength="50" />
+							</form>
+						</p>
+					</div>
+				</div>
+				
+                <div data-role="collapsible-set" data-theme="b" data-content-theme="d">
+                    <div data-role="collapsible" data-collapsed="false">
+                        <h2>Transfer to Branch</h2>
+                        <ul class="branchdetails" data-role="listview" data-theme="d" data-divider-theme="d"></ul>
+                    </div>
+                </div>
+				
+                <div data-role="collapsible-set" data-theme="b" data-content-theme="d">
+                    <div data-role="collapsible" data-collapsed="false">
+                        <h2>Equipment List</h2>
+                        <ul class="branchequipments" data-role="listview" data-theme="d" data-divider-theme="d" data-split-icon="delete" data-split-theme="d"></ul>
+                    </div>
+                </div>
+            </div>
+			
+			<div data-role="footer" data-theme="b" class="ui-footer" data-position="fixed">
+				<div class="transaction-process" data-role="navbar" data-grid="a">
+					<ul>
+						<li><a href="#" data-theme="b" data-rel="branch" data-icon="delete" class="transaction-cancel">Cancel All</a></li>
+						<li><a href="#" data-theme="b" data-rel="branch" data-icon="check" class="transaction-ok">Commit</a></li>
+					</ul>
+				</div>
+				<div data-role="navbar" data-grid="b" class="nav-custom-footer">
+					<ul>
+						<li><a href="#" data-theme="b" data-rel="camera" data-icon="custom" class="footer-camera branch-camera">Camera</a></li>
+						<li><a href="#" data-theme="b" data-rel="manual" data-icon="custom" class="footer-manual branch-camera">Manual</a></li>
+						<li><a href="#" data-theme="b" data-rel="grabba" data-icon="custom" class="footer-grabba branch-camera">Grabba</a></li>
+					</ul>
+				</div>
+			</div>
+            
+        </div>
+		
+		<div id="jobList" data-role="page" role="page" data-theme="c">
+			
+			<div id="jobListPanelOptions" data-role="panel" data-display="overlay">
+				<input type="checkbox" name="checkboxSearchInside" id="checkboxSearchInside" class="custom" data-mini="true"><label for="checkboxSearchInside">Search My Home Branch Only</label>
+					<input type="checkbox" name="checkboxSearchInsideJobs" id="checkboxSearchInsideJobs" class="custom" data-mini="true"><label for="checkboxSearchInsideJobs">Search My Jobs Only</label>
+				<p>You can also search:</p>
+				<ul class="home-links" data-role="listview">
+					<li><a href="#" data-rel="companies" class="home-details">Companies</a></li>
+                    <li><a href="#" data-rel="contacts" class="home-details">Contacts</a></li>
+					<li><a href="#" data-rel="employees" class="home-details">Employees</a></li>
+                </ul>
+			</div>
+            
+            <div data-role="header" data-theme="b" class="ui-header"></div>
+            
+            <div data-role="content">
+				<form id="searchJobSubmit">
+					<input type="text" data-clear-btn="true" name="searchJob" id="searchJob" value="" placeholder="Search for jobs...">
+				</form>
+                <ul class="joblist" data-role="listview" data-inset="true"></ul>
+            </div>
+            
+        </div>
+        
+        <div id="jobDetails" data-role="page" role="page" data-theme="c">
+			
+			<div id="jobDetailsPanelOptions" data-role="panel" data-display="overlay">
+				<ul class="job-links" data-role="listview">
+					<li><a href="#" data-rel="jobList" class="job-details">Job List</a></li>
+                    <li class="ui-btn-active">Details</li>
+					<li><a href="#" data-rel="jobSchedule" class="job-details">Schedule</a></li>
+					<li><a href="#" data-rel="jobEquipment" class="job-details">Equipment</a></li>
+					<li><a href="#" data-rel="jobNotes" class="job-details">Notes</a></li>
+					<li><a href="#" data-rel="jobPhotos" class="job-details">Photos</a></li>
+					<li><a href="#" data-rel="jobMoisture" class="job-details">Moisture Readings</a></li>
+					<li><a href="#" data-rel="jobTimesheet" class="job-details">Timesheet</a></li>
+                </ul>
+			</div>
+            
+            <div data-role="header" data-theme="b" class="ui-header"></div>
+            
+            <div class="jobdetails" data-role="content"></div>
+            
+        </div>
+		
+		<div id="jobEquipment" data-role="page" role="page" data-theme="c">
+			
+			<div id="jobEquipmentPanelOptions" data-role="panel" data-display="overlay">
+				<ul class="job-links" data-role="listview">
+					<li><a href="#" data-rel="jobList" class="footer-list job-details">Job List</a></li>
+                    <li><a href="#" data-rel="jobDetails" class="footer-detail job-details">Details</a></li>
+					<li><a href="#" data-rel="jobSchedule" class="job-details">Schedule</a></li>
+					<li class="ui-btn-active">Equipment</li>
+					<li><a href="#" data-rel="jobNotes" class="footer-note job-details">Notes</a></li>
+					<li><a href="#" data-rel="jobPhotos" class="footer-photo job-details">Photos</a></li>
+					<li><a href="#" data-rel="jobMoisture" class="job-details">Moisture Readings</a></li>
+					<li><a href="#" data-rel="jobTimesheet" class="job-details">Timesheet</a></li>
+                </ul>
+			</div>
+			
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+			
+			<div class="jobEquipmentDetails" data-role="content">
+				<div class="scan-manual-set" data-role="collapsible-set" data-theme="b" data-content-theme="d">
+					<div class="scan-manual" data-role="collapsible" data-collapsed="false">
+						<h2>Equipment Manual Scan</h2>
+						<p>
+							<form id="jobScan">
+								Please fill in equipment code... <span class="waitmessage"></span>
+								<input type="text" data-clear-btn="true" id="jobCode" maxlength="50" />
+							</form>
+						</p>
+					</div>
+				</div>
+				<div data-role="collapsible-set" data-theme="b" data-content-theme="d">
+                    <div data-role="collapsible" data-collapsed="false">
+                        <h2>Phase List</h2>
+                        <select id="phaseList"><option value="">Select a Phase</option></select>
+                    </div>
+                </div>
+				<div data-role="collapsible-set" data-theme="b" data-content-theme="d">
+                    <div data-role="collapsible" data-collapsed="false">
+                        <h2>Equipment List</h2>
+                        <ul class="jobequipment" data-role="listview" data-theme="d" data-divider-theme="d" data-split-icon="delete" data-split-theme="d"></ul>
+                    </div>
+                </div>
+			</div>
+			
+			<div data-role="footer" data-theme="b" class="ui-footer" data-position="fixed">
+				<div id="jobEquipmentFooter" class="transaction-process" data-role="navbar" data-grid="a">
+					<ul>
+						<li><a href="#" data-theme="b" data-rel="job" data-icon="delete" class="transaction-cancel">Cancel</a></li>
+						<li><a href="#" data-theme="b" data-rel="job" data-icon="check" class="transaction-ok">Commit</a></li>
+					</ul>
+				</div>
+				<div data-role="navbar" data-grid="b" class="nav-custom-footer">
+					<ul>
+						<li><a href="#" data-theme="b" data-rel="camera" data-icon="custom" class="footer-camera scan-job">Camera</a></li>
+						<li><a href="#" data-theme="b" data-rel="manual" data-icon="custom" class="footer-manual scan-job">Manual</a></li>
+						<li><a href="#" data-theme="b" data-rel="grabba" data-icon="custom" class="footer-grabba scan-job">Grabba</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<div id="jobNotes" data-role="page" role="page" data-theme="c">
+			
+			<div id="jobNotesPanelOptions" data-role="panel" data-display="overlay">
+				<ul class="job-links" data-role="listview">
+					<li><a href="#" data-rel="jobList" class="footer-list job-details">Job List</a></li>
+                    <li><a href="#" data-rel="jobDetails" class="footer-detail job-details">Details</a></li>
+					<li><a href="#" data-rel="jobSchedule" class="job-details">Schedule</a></li>
+					<li><a href="#" data-rel="jobEquipment" class="footer-equipment job-details">Equipment</a></li>
+					<li class="ui-btn-active">Notes</li>
+					<li><a href="#" data-rel="jobPhotos" class="footer-photo job-details">Photos</a></li>
+					<li><a href="#" data-rel="jobMoisture" class="job-details">Moisture Readings</a></li>
+					<li><a href="#" data-rel="jobTimesheet" class="job-details">Timesheet</a></li>
+                </ul>
+			</div>
+			
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+			
+			<div class="jobNotesDetails" data-role="content">
+				<table width="100%" id="photoTbl" data-mode="reflow" class="ui-responsive table-stroke">
+                    <tr>
+                        <td><span data-theme="e">Total Items: <strong><span class="noteTotalItems"></span></strong><span class="show-page-option">, Showing Page: <strong><span id="show-page"></span></strong></span></span></td>
+                        <td align=right>
+							<a href="#" data-role="button" data-theme="b" data-icon="plus" data-iconpos="right" data-inline="true" class="add-note">Add</a>
+                        </td>
+                    </tr>
+                </table>
+				<div id="paginationContainer"></div>
+				<ul class="notesdetails" data-role="listview" data-theme="d" data-divider-theme="d" data-inset="true"></ul>
+			</div>
+			
+		</div>
+		
+		<div id="jobPhotos" data-role="page" role="page" data-theme="c">
+			
+			<div id="jobPhotosPanelOptions" data-role="panel" data-display="overlay">
+				<ul class="job-links" data-role="listview">
+					<li><a href="#" data-rel="jobList" class="footer-list job-details">Job List</a></li>
+                    <li><a href="#" data-rel="jobDetails" class="footer-detail job-details">Details</a></li>
+					<li><a href="#" data-rel="jobSchedule" class="job-details">Schedule</a></li>
+					<li><a href="#" data-rel="jobEquipment" class="footer-equipment job-details">Equipment</a></li>
+					<li><a href="#" data-rel="jobNotes" class="footer-note job-details">Notes</a></li>
+					<li class="ui-btn-active">Photos</li>
+					<li><a href="#" data-rel="jobMoisture" class="job-details">Moisture Readings</a></li>
+					<li><a href="#" data-rel="jobTimesheet" class="job-details">Timesheet</a></li>
+                </ul>
+			</div>
+			
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+			
+			<div class="jobPhotosContent" data-role="content">
+                <table width="100%" id="photoTbl" data-mode="reflow" class="ui-responsive table-stroke">
+                    <tr>
+                        <td style="width:30px">Phase:</td>
+                        <td>
+                            <select name="select-img-ph" id="select-img-ph">
+                                <option value="0">All</option>
+                            </select>
+                        </td>
+                        <td align=right>
+							<a href="#" data-role="button" data-theme="b" data-icon="plus" data-iconpos="right" data-inline="true" class="capture-photo">Add</a>
+                        </td>
+                    </tr>
+                </table>
+				<div class="currentPhotoContainer"></div>
+				<div class="noCurrentPhotoContainer"></div>
+			</div>
+			
+			<div data-role="popup" id="photoDetails" data-theme="d" class="ui-corner-all">
+				<div data-role="header" data-theme="b" class="ui-corner-top">
+					<h1>Photo Details</h1>
+				</div>
+				<div data-role="content" data-theme="d" class="ui-corner-bottom ui-content photoDetailsContainer">
+				</div>
+			</div>
+			
+			<div id="photoSource" data-role="popup" data-theme="b" class="ui-corner-all">
+				<div data-role="header" data-theme="b" class="ui-corner-top"><h1>Capture Type</h1></div>
+				<div data-role="content" data-theme="c" class="ui-corner-bottom ui-content">
+					<a href="#" data-role="button" data-inline="true" class="capture-use-camera">Camera</a>
+					<a href="#" data-role="button" data-inline="true" class="capture-use-library">Library</a>
+				</div>
+			</div>
+			
+		</div>
+		
+		<div id="jobMoisture" data-role="page" role="page" data-theme="c">
+			
+			<div id="jobMoisturePanelOptions" data-role="panel" data-display="overlay">
+				<ul class="job-links" data-role="listview">
+					<li><a href="#" data-rel="jobList" class="footer-list job-details">Job List</a></li>
+                    <li><a href="#" data-rel="jobDetails" class="footer-detail job-details">Details</a></li>
+					<li><a href="#" data-rel="jobSchedule" class="job-details">Schedule</a></li>
+					<li><a href="#" data-rel="jobEquipment" class="footer-equipment job-details">Equipment</a></li>
+					<li><a href="#" data-rel="jobNotes" class="footer-note job-details">Notes</a></li>
+					<li><a href="#" data-rel="jobPhotos" class="footer-photo job-details">Photos</a></li>
+					<li class="ui-btn-active">Moisture Readings</li>
+					<li><a href="#" data-rel="jobTimesheet" class="job-details">Timesheet</a></li>
+                </ul>
+			</div>
+            
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+            
+            <div class="moistureDetails" data-role="content">
+            </div>
+        </div>
+		
+		<div id="jobSchedule" data-role="page" role="page" data-theme="c">
+			
+			<div id="jobSchedulePanelOptions" data-role="panel" data-display="overlay">
+				<ul class="job-links" data-role="listview">
+					<li><a href="#" data-rel="jobList" class="footer-list job-details">Job List</a></li>
+                    <li><a href="#" data-rel="jobDetails" class="footer-detail job-details">Details</a></li>
+					<li class="ui-btn-active">Schedule</li>
+					<li><a href="#" data-rel="jobEquipment" class="footer-equipment job-details">Equipment</a></li>
+					<li><a href="#" data-rel="jobNotes" class="footer-note job-details">Notes</a></li>
+					<li><a href="#" data-rel="jobPhotos" class="footer-photo job-details">Photos</a></li>
+					<li><a href="#" data-rel="jobMoisture" class="job-details">Moisture Readings</a></li>
+					<li><a href="#" data-rel="jobTimesheet" class="job-details">Timesheet</a></li>
+                </ul>
+			</div>
+            
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+            
+            <div class="moistureDetails" data-role="content">
+            </div>
+        </div>
+        
+        <div id="equipmentDetails" data-role="page" role="page" data-theme="c">
+            
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+            
+            <div class="equipmentDetails" data-role="content">
+                <div class="equipmentDetailsHeader"></div>
+                
+                <ul class="equipmentDetailsItems" data-role="listview" data-inset="true"></ul>
+				
+            </div>
+        </div>
+		
+		<div id="transactions" data-role="page" role="page" data-theme="c">
+            
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+			
+			<div id="transaction_content" data-role="content">
+				<h2>Pending Transactions</h2>
+				<ul class="pending" data-role="listview" data-theme="d" data-divider-theme="d" data-split-icon="delete" data-split-theme="d" data-inset="true"></ul>
+			</div>
+			
+			<div data-role="footer" data-theme="b" class="ui-footer" data-position="fixed">
+				<div class="transaction-process" data-role="navbar" data-grid="a">
+					<ul>
+						<li><a href="#" data-theme="b" data-rel="pending" data-icon="delete" class="transaction-cancel">Cancel All</a></li>
+						<li><a href="#" data-theme="b" data-rel="pending" data-icon="check" class="transaction-ok">Commit</a></li>
+					</ul>
+				</div>
+			</div>
+			
+        </div>
+		
+		<div id="timesheets" data-role="page" role="page" data-theme="c">
+            
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+			
+			<div id="timesheet_content" data-role="content">
+				<a href="#" data-role="button" data-theme="b" data-inline="true" class="timesheet-job" data-rel="0">Select a Job</a><br/>
+				<label for="timesheet-phase">Phase:</label>
+				<select name="timesheet-phase" id="timesheet-phase"><option value="0"></option></select>
+				<label for="timesheet-date">Date:</label>
+				<input type="date" data-clear-btn="false" name="timesheet-date" id="timesheet-date" value="">
+				<label for="timesheet-hours">Hours:</label>
+				<input type="number" data-clear-btn="false" name="timesheet-hours" id="timesheet-hours" value="">
+				<label for="timesheet-note">Notes:</label>
+				<textarea name="timesheet-note" id="timesheet-note" rows="4"></textarea>
+			</div>
+			
+			<div data-role="footer" data-theme="b" class="ui-footer" data-position="fixed">
+				<div class="transaction-timesheet" data-role="navbar" data-grid="a">
+					<ul>
+						<li><a href="#" data-theme="b" data-rel="timesheet" data-icon="delete" class="timesheet-cancel">Cancel</a></li>
+						<li><a href="#" data-theme="b" data-rel="timesheet" data-icon="check" class="timesheet-ok">Commit</a></li>
+					</ul>
+				</div>
+			</div>
+			
+        </div>
+		
+		<div id="addNote" data-role="page" role="page" data-theme="c">
+            
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+			
+			<div id="note_content" data-role="content">
+				<h2>Add New Note</h2>
+				<div data-role="fieldcontain">
+					<label for="select-dep">Department:</label>
+					<select name="select-dep" id="select-dep">
+					</select><br>
+					<label for="select-ph">Phase:</label>
+					<select name="select-ph" id="select-ph">
+						<option value="0"></option>
+					</select><br>
+					<div class='alert-pm-container'><label><input type="checkbox" name="alertPM" id="alertPM" />Alert PM ?</label></div><br>
+					<label for="noteMessage">Note:</label>
+					<textarea id="noteMessage" style="resize: none; height: 120px"></textarea>
+				</div>
+			</div>
+			
+			<div data-role="footer" data-theme="b" class="ui-footer" data-position="fixed">
+				<div class="transaction-process-note" data-role="navbar" data-grid="a">
+					<ul>
+						<li><a href="#" data-theme="b" data-rel="pending" data-icon="delete" class="note-cancel">Cancel</a></li>
+						<li><a href="#" data-theme="b" data-rel="pending" data-icon="check" class="note-ok">Commit</a></li>
+					</ul>
+				</div>
+			</div>
+			
+        </div>
+		
+		<div id="noteDetails" data-role="page" role="page" data-theme="c">
+            
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+			
+			<div class="note-content" data-role="content">
+				Claim: <strong><span class="note-content-claim"></span></strong><br />
+				Date: <strong><span class="note-content-date"></span></strong><br />
+				Department: <strong><span class="note-content-dep"></span></strong><br />
+				Entered By: <strong><span class="note-content-entered"></span></strong><br />
+				Phase: <strong><span class="note-content-phase"></span></strong><br />
+				<ul class="full-note" data-role="listview" data-theme="d" data-inset="true"></ul>
+			</div>
+			
+        </div>
+		
+		<div data-role="dialog" id="photoUpload" data-theme="d" class="ui-corner-all" data-close-btn="none">
+			<div data-role="header" data-theme="b" class="ui-corner-top"><h1>Uploading</h1></div>
+			<div data-role="content" data-theme="d" class="ui-corner-bottom ui-content photoUploadProgress"><div id="progressBar"><div></div></div></div>
+		</div>
+		
+		<div id="equipmentsFound" data-role="dialog" data-theme="b" class="ui-corner-all">
+				<div data-role="header" data-theme="b" class="ui-corner-top"><h1>Select Equipment</h1></div>
+				<div data-role="content" data-theme="c" class="ui-corner-bottom ui-content">
+					<ul class="eqlist" data-role="listview"></ul>
+				</div>
+			</div>
+		
+		<div id="jobPhotoPreview" data-role="page" role="page" data-theme="c">
+			
+			<div id="jobPhotosPanelOptions" data-role="panel" data-display="overlay">
+				<p><a href="#" data-role="button" data-theme="b" data-inline="true" class="capture-photo">Capture Photo</a><br/></p>
+				<ul class="job-links" data-role="listview">
+					<li><a href="#" data-rel="jobList" class="footer-list job-details">Job List</a></li>
+                    <li><a href="#" data-rel="jobDetails" class="footer-detail job-details">Details</a></li>
+					<li><a href="#" data-rel="jobSchedule" class="job-details">Schedule</a></li>
+					<li><a href="#" data-rel="jobEquipment" class="footer-equipment job-details">Equipment</a></li>
+					<li><a href="#" data-rel="jobNotes" class="footer-note job-details">Notes</a></li>
+					<li class="ui-btn-active">Photos</li>
+					<li><a href="#" data-rel="jobMoisture" class="job-details">Moisture Readings</a></li>
+					<li><a href="#" data-rel="jobTimesheet" class="job-details">Timesheet</a></li>
+                </ul>
+			</div>
+			
+			<div data-role="header" data-theme="b" class="ui-header"></div>
+			
+			<div class="jobPhotosContent" data-role="content">
+				<label for="select-img-ph-preview">Phase:</label>
+				<select name="select-img-ph-preview" id="select-img-ph-preview">
+					<option value="0">All</option>
+				</select>
+				<textarea id="imagePreviewDescription" style="resize: none; height: 120px"></textarea>
+				<div class="previewPhotoContainer"></div>
+			</div>
+			
+			<div data-role="footer" data-theme="b" class="ui-footer" data-position="fixed">
+				<div class="transaction-process-preview" data-role="navbar" data-grid="a">
+					<ul>
+						<li><a href="#" data-theme="b" data-rel="cancel-preview" data-icon="delete" class="preview-cancel">Cancel</a></li>
+						<li><a href="#" data-theme="b" data-rel="commit-preview" data-icon="check" class="preview-ok">Commit</a></li>
+					</ul>
+				</div>
+			</div>
+			
+		</div>
+		
+		<div id="fileAlerts" data-role="page" role="page" data-theme="c">
+			
+            <div data-role="header" data-theme="b" class="ui-header"></div>
+            
+            <div class="fileAlertsDetails" data-role="content">
+				<h2>File Alerts</h2>
+				<div class="extra-info"></div>
+                <ul class="file-alert-items" data-role="listview" data-theme="d" data-divider-theme="d" data-inset="true"></ul>
+            </div>
+            
+        </div>
+        
+        <!-- jquery libraries -->
+        <script src="assets/js/lib/jquery.js"></script>
+        <script src="assets/js/lib/jqueryMobileFix.js"></script>
+		<script src="assets/js/lib/jqueryMobile.js"></script>
+        <script src="assets/js/lib/jqueryTmpl.js"></script>
+		<script src="assets/js/lib/jquerySimplePagination.js"></script>
+        
+        <!-- app library -->
+        <script src="assets/js/app.js"></script>
+		
+        <!-- app libraries -->
+        <script src="assets/js/app/api.js"></script>
+        <script src="assets/js/app/items.js"></script>
+        <script src="assets/js/app/user.js"></script>
+        <script src="assets/js/app/template.js"></script>
+		
+		<script src="assets/js/app/header.js"></script>
+		
+		<script src="assets/js/app/scanner.js"></script>
+		
+		<script src="assets/js/app/branch.js"></script>
+        <script src="assets/js/app/branches.js"></script>
+		
+		<script src="assets/js/app/job.js"></script>
+        <script src="assets/js/app/jobs.js"></script>
+		
+		<script src="assets/js/app/contact.js"></script>
+        <script src="assets/js/app/contacts.js"></script>
+		
+		<script src="assets/js/app/company.js"></script>
+        <script src="assets/js/app/companies.js"></script>
+		
+        <script src="assets/js/app/equipment.js"></script>
+		
+		<script src="assets/js/app/regions.js"></script>
+		<script src="assets/js/app/location.js"></script>
+		
+		<script src="assets/js/app/transaction.js"></script>
+		<script src="assets/js/app/photo.js"></script>
+		<script src="assets/js/app/note.js"></script>
+		<script src="assets/js/app/alert.js"></script>
+		
+		<script src="assets/js/app/timesheet.js"></script>
+    </body>
+
+</html>

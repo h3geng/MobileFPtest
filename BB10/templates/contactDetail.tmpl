@@ -1,0 +1,25 @@
+<li id="${Id}">
+    <h1>${FullName}</h1>
+	{{if ContactType !== "01"}}
+	<p><strong>${$item.getCompanyName()}</strong></p>
+	<p>${ContactType}</p>
+	{{else}}
+	<p><strong>${Title}</strong></p>
+	<p><strong>${Region && Region.Value || 'Unknown Region'} - ${Branch && Branch.Value || 'Unknown Branch'}</strong></p>
+	{{/if}}
+	<p><a href="mailto:${Email}" class="contact-email-link" data-role="button" data-mini="true" data-inline="true">${Email}</a></p>
+	<p>o. <strong>{{html $item.getPhone()}}</strong></p>
+	<p>c. <strong>{{html $item.getCell()}}</strong></p>
+	<p>&nbsp;</p>
+	{{if ContactType !== "01"}}
+	<div class="contact-details-more" data-role="collapsible-set" data-theme="b" data-content-theme="c">
+		<div class="contact-details-more-content" data-role="collapsible" data-mini="true" data-collapsed="true">
+			<h2>Company Details</h2>
+			<p>&nbsp;</p>
+			<p>Name: <strong>${$item.getCompanyName()}</strong></p>
+			<p>Code: <a href="#" class="contactCompany" data-rel="${$item.getCompanyId()}" data-role="button" data-mini="true" data-inline="true">${$item.getCompanyCode()}</a></p>
+			<p>Company Type: <strong>${$item.getCompanyType()}</strong></p>
+		</div>
+	</div>
+	{{/if}}
+</li>

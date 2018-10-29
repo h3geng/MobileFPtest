@@ -1,0 +1,12 @@
+# Uncomment this line if you're using Swift
+# use_frameworks!
+
+target 'mobileFP' do
+    platform :ios, '9.0'
+    
+    pod 'PayPal-iOS-SDK'
+    pod 'Firebase/Core'
+    pod 'Firebase/Crash'
+    
+    pod 'MBProgressHUD', '~> 1.0.0'
+end

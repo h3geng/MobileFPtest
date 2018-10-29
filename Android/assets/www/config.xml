@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:rim="http://www.blackberry.com/ns/widgets" version="1.0.0.0" id="mobileFPApp">   
+   
+    <name>mobileFP</name> 
+    <author>First on Site</author>
+    <description>First on Site mobile Field Portal</description>
+	<access subdomains="true" uri="file:///store/home" />
+    <access subdomains="true" uri="file:///SDCard" />
+    <access subdomains="true" uri="http://dev.firstonsite.ca/mobileservices/" />
+    <access subdomains="true" uri="*" />
+    <icon src="assets/img/icon.png"/>
+    <content src="index.html"/>
+	
+	<rim:splash src="assets/img/splash-1280x768.png" />
+    <rim:splash src="assets/img/splash-720x720.png" />
+    <rim:splash src="assets/img/splash-768x1280.png" />
+	
+	<rim:permissions>
+		<rim:permit>use_camera</rim:permit>
+		<rim:permit>access_shared</rim:permit>
+		<rim:permit>read_geolocation</rim:permit>
+	</rim:permissions>
+	
+	<feature id="blackberry.app" />
+	<feature id="blackberry.io" />
+	<feature id="community.barcodescanner" />
+	<feature id="community.preventsleep" />
+	<feature id="blackberry.invoke.card" />
+	<feature id="blackberry.io.filetransfer" />
+
+</widget>

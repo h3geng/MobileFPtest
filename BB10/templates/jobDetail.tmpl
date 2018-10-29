@@ -1,0 +1,112 @@
+<ul class="claim-details" data-role="listview" data-theme="d" data-divider-theme="d" data-inset="true">
+    <li>
+        <h2>${ClaimNumber}</h2>
+        <p><strong>${ProjectName}</strong></p>
+        <p>&nbsp;${Address}, ${City}</p>
+        <p>&nbsp;${Province} ${Postal}</p>
+        <p><strong>Opened:</strong> ${DateJobOpen}</p>
+        <p><strong>PM:</strong> ${ProjectManager}</p>
+        <p><strong>Loss Type:</strong> ${LossType}</p>
+    </li>
+</ul>
+
+<div class="job-details" data-role="collapsible-set" data-theme="b" data-content-theme="d">
+
+    <div class="job-customer" data-role="collapsible">
+        <h3>Customer Information</h3>
+        <ul class="job-customer-details" data-role="listview" data-theme="d" data-divider-theme="d">
+            {{if $item.AdjCompanyCode() !== ""}}
+            <li id="${AdjCompany.Code || ''}" class="contactAdjCompany">
+                <h1>Adjusting Company</h1>
+                <p>&nbsp;</p>
+                <p><strong>${AdjCompany.FullName || ''}</strong></p>
+                <p>${$item.AdjCompanyAddress()}</p>
+            </li>
+            {{/if}}
+            {{if $item.AdjusterCode() !== ""}}
+            <li id="${Adjuster.Id || ''}" class="contactAdj">
+                <h2>Adjuster</h2>
+                <p>&nbsp;</p>
+                <p><strong>${Adjuster.FullName || ''}</strong></p>
+            </li>
+            {{/if}}
+            {{if $item.InsurerCode() !== ""}}
+            <li id="${Insurer.Code || ''}" class="contactInsurer">
+                <h1>Insurer</h1>
+                <p>&nbsp;</p>
+                <p><strong>${Insurer.FullName || ''}</strong></p>
+                <p>${$item.InsurerAddress()}</p>
+            </li>
+            {{/if}}
+        </ul>
+    </div>
+    
+    <div data-role="collapsible" class="job-workflow-kpi">
+        <h3>Workflow & KPI</h3>
+        <ul class="job-workflow-kpi-details" data-role="listview" data-theme="d" data-divider-theme="e" data-count-theme="b">
+            <li>
+                <h2>Called-In</h2>
+                <p>${KPI.actuals.dateCalledIn}</p>
+                <p class="ui-li-aside"></p>
+            </li>
+            <li class='kpi-customer-contact' data-rel='${ClaimIndx}'>
+                <h2>Customer Contact</h2>
+                <p>${KPI.actuals.dateCustContact}</p>
+                <p class="ui-li-aside"><span class="ui-li-count">${KPI.scores.custContact}</span></p>
+            </li>
+            <li>
+                <h2>Site Inspection</h2>
+                <p>${KPI.actuals.dateSiteInspect}</p>
+                <p class="ui-li-aside"><span class="ui-li-count">${KPI.scores.siteInspect}</span></p>
+            </li>
+            <li data-role="list-divider">Emergency Phase</li>
+            <li>
+                <h2>EM Assigned</h2>
+                <p>${$item.ValueWithProperty('EM', 'dateAssigned') || 'N/A'}</p>
+                <p class="ui-li-aside"></p>
+            </li>
+            <li>
+                <h2>EM Estimate</h2>
+                <p>${$item.ValueWithProperty('EM', 'dateEstimate') || 'N/A'}</p>
+                <p class="ui-li-aside"><span class="ui-li-count">${$item.ScoreWithProperty('EM', 'estimate') || 'N/A'}</span></p>
+            </li>
+            <li>
+                <h2>EM Start Work</h2>
+                <p>${$item.ValueWithProperty('EM', 'dateWorkStart') || 'N/A'}</p>
+                <p class="ui-li-aside"></p>
+            </li>
+            <li>
+                <h2>EM Complete Work</h2>
+                <p>${$item.ValueWithProperty('EM', 'dateWorkComplete') || 'N/A'}</p>
+                <p class="ui-li-aside"><span class="ui-li-count">${$item.ScoreWithProperty('EM', 'workAssignToStop') || 'N/A'}</span></p>
+            </li>
+            <li data-role="list-divider">Rebuild Phase</li>
+            <li>
+                <h2>RE Assigned</h2>
+                <p>${$item.ValueWithProperty('RE', 'dateAssigned') || 'N/A'}</p>
+                <p class="ui-li-aside"></p>
+            </li>
+            <li>
+                <h2>RE Estimate</h2>
+                <p>${$item.ValueWithProperty('RE', 'dateEstimate') || 'N/A'}</p>
+                <p class="ui-li-aside"><span class="ui-li-count">${$item.ScoreWithProperty('RE', 'estimate') || 'N/A'}</span></p>
+            </li>
+            <li>
+                <h2>RE Start Work</h2>
+                <p>${$item.ValueWithProperty('RE', 'dateWorkStart') || 'N/A'}</p>
+                <p class="ui-li-aside"></p>
+            </li>
+            <li>
+                <h2>RE Complete Work</h2>
+                <p>${$item.ValueWithProperty('RE', 'dateWorkComplete') || 'N/A'}</p>
+                <p class="ui-li-aside">
+                    <span class="ui-li-count">
+                        ${$item.ScoreWithProperty('RE', 'workAssignToStop') || 'N/A'}<br/>
+                        ${$item.ScoreWithProperty('RE', 'workStartToStop') || 'N/A'}
+                    </span>
+                </p>
+            </li>
+        </ul>
+    </div>
+
+</div>

@@ -1,0 +1,10 @@
+<li>
+	<p>&nbsp;</p>
+    <p>Name: <strong>${FullName}</strong></p>
+	<p>Code: <strong>${Code}</strong></p>
+	<p>&nbsp;</p>
+	<p>Address: <strong>${$item.getAddress()}</strong></p>
+	<p>Phone: <strong>{{html $item.getPhone()}}</strong></p>
+	<p>Company Type: <strong>${CompanyType}</strong></p>
+</li>
+{{html $item.getProfile()}}

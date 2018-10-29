@@ -1,0 +1,19 @@
+@media screen and (max-width: 400px){
+    .login-logo {
+        width: 100%;
+    }
+}
+
+.ui-collapsible .ui-btn-up-b, .ui-collapsible .ui-btn-hover-b{
+    border:1px solid #cccccc ;
+    background:#eeeeee ;
+    font-weight:bold;
+    color:#cfcfcf ;
+    text-shadow: none;
+    background-image:-webkit-gradient(linear,left top,left bottom,from( #012133 ),to( #044d76 ));
+    background-image:-webkit-linear-gradient( #012133,#044d76 );
+    background-image:   -moz-linear-gradient( #012133,#044d76 );
+    background-image:    -ms-linear-gradient( #012133,#044d76 );
+    background-image:     -o-linear-gradient( #012133,#044d76 );
+    background-image:        linear-gradient( #012133,#044d76 );
+}

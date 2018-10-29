@@ -1,0 +1,36 @@
+{
+  "name": "ScanAPI",
+  "version": "10.3.90",
+  "summary": "Socket Mobile Wireless barcode scanners SDK.",
+  "homepage": "http://www.socketmobile.com",
+  "license": {
+    "type": "COMMERCIAL",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Socket": "developers@socketmobile.com"
+  },
+  "documentation_url": "http://www.socketmobile.com/docs/default-source/developer-documentation/scanapi.pdf?sfvrsn=2",
+  "platforms": {
+    "ios": "7.1"
+  },
+  "source": {
+    "path": "./"
+  },
+  "source_files": "**/*.{h,m,mm}",
+  "public_header_files": [
+    "*.h",
+    "include/*"
+  ],
+  "preserve_paths": "**/*.a",
+  "resources": "*.wav",
+  "ios": {
+    "vendored_libraries": "lib/libScanApiCore.a",
+    "libraries": "c++"
+  },
+  "frameworks": [
+    "ExternalAccessory",
+    "AudioToolbox",
+    "AVFoundation"
+  ]
+}
